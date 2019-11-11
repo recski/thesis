@@ -1,0 +1,22 @@
+%----------------------------------------------------------------------------
+\chapter*{Introduction}\addcontentsline{toc}{chapter}{Introduction}\label{sect:Introduction}
+%----------------------------------------------------------------------------
+
+Summarization tasks are relevant in the field of natural language processing (NLP). Complex end-to-end models like Hierarchical Structured Self-Attentive Model (HSASS) \cite{HSSAS} can achieve up to 42.3 ROUGE-1 score which was the best model when I started to work on this project. The best model as of writing this thesis has achieved 43.85 ROUGE-1 score \cite{BERTsum} using BERT.
+
+
+Graph neural networks on the other hand are not yet widely researched and their usage for NLP purposes has not been explored previously, at least to my knowledge. Graph Convolutional Networks (GCN) have been successfully applied on a variety of task recently, but not as widely as other methods.
+
+That being said representing syntax with graphs or trees is common practice on the field, so finding a tool that is capable of generating graph representations from texts was not a hard task. I used the \textit{stanfordnlp} library which uses deep learning to determine part of speech (POS) tags, word lemmas and universal dependency (UD) relations between words.
+
+I used these graphs to build one merged graph that can represent sequences of sentences, like summaries and articles in a graph format. I had to modify the summary graphs further to have the same structure as the article graph. Chapter \ref{sect:DataProcessing} is about this process and the graph representation used in graph\_nets module.
+
+After this I had to further understand how to use said module with this input data since it was not abundantly clear whether it was \href{https://github.com/deepmind/graph\_nets/issues/36}{feasible} or not. In chapter \ref{sect:GraphNetwork} I documented some of the most important parts of the graph\_nets library.
+
+Chapter \ref{sect:Models} focuses on the structure of the models used for my experiments during the semester. There are more model definitions in the chapter, the Encode Process Decode model is one used in the graph\_nets demos and both version of GraphAttention model is my own.
+
+My experiments and results are detailed in chapter \ref{sect:Experiments}. The code of the accuracy measure used in this chapter is available in the Appendices \ref{sect:Appendices}.
+
+The plans for my future work are described in chapter \ref{sect:Future}.
+
+The code for the project is publicly available on \href{https://github.com/GKingA/graph\_transformations}{GitHub}.

@@ -1,0 +1,86 @@
+%----------------------------------------------------------------------------
+\appendix
+%----------------------------------------------------------------------------
+\chapter*{Appendices}\addcontentsline{toc}{chapter}{Appendices}\label{sect:Appendices}
+\setcounter{chapter}{1}  % a fofejezet-szamlalo az angol ABC 1. betuje (A) lesz
+\newcommand{\tab}[1]{\hspace{.1\textwidth}\rlap{#1}}
+
+
+%----------------------------------------------------------------------------
+\section{Accuracy calculations}
+%----------------------------------------------------------------------------
+def compute\_accuracy(target, output):
+
+"""
+
+Computes the accuracy ratio on nodes and edges, and also on the whole correctly predicted graph itself
+
+:param target: The target graphs
+
+:param output: The output graphs
+
+:return: The ratio of correctly predicted nodes and edges, and the correctly 
+predicted full graphs
+
+"""
+
+\tab{tdds = utils\_np.graphs\_tuple\_to\_data\_dicts(target)}
+
+\tab{odds = utils\_np.graphs\_tuple\_to\_data\_dicts(output)}
+
+\tab{cs = []}
+
+\tab{ss = []}
+
+\tab{for td, od in zip(tdds, odds):}
+
+\tab{\tab{xn = np.argmax(td["nodes"], axis=-1)}}
+
+\tab{\tab{yn = np.argmax(od["nodes"], axis=-1)}}
+
+\tab{\tab{xe = np.argmax(td["edges"], axis=-1)}}
+
+\tab{\tab{ye = np.argmax(od["edges"], axis=-1)}}
+
+\tab{\tab{c = [xn == yn, xe == ye]}}
+
+\tab{\tab{c = np.concatenate(c, axis=0)}}
+
+\tab{\tab{s = np.all(c)}}
+
+\tab{\tab{cs.append(c)}}
+
+\tab{\tab{ss.append(s)}}
+
+\tab{correct = np.mean(np.concatenate(cs, axis=0))}
+
+\tab{solved = np.mean(np.stack(ss))}
+
+\tab{return correct, solved}
+
+%----------------------------------------------------------------------------
+\section{Softmax cross entropy calculation}
+%----------------------------------------------------------------------------
+
+
+def softmax\_loss(target, outputs):
+
+"""
+
+Calculates the categorical cross entropy loss on nodes and edges
+
+:param target: The target graph
+
+:param outputs: List of output graphs
+
+:return: It returns the calculated loss
+
+"""
+
+\tab{loss = [softmax\_cross\_entropy(target.nodes, output.nodes) + }
+
+\tab{\tab{softmax\_cross\_entropy(target.edges, output.edges) for output in outputs]}}
+
+\tab{return loss}
+
+

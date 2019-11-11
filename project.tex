@@ -1,0 +1,28 @@
+%--------------------------------------------------------------------------------------
+% Feladatkiiras (a tanszeken atveheto, kinyomtatott valtozat)
+%--------------------------------------------------------------------------------------
+\clearpage
+\begin{center}
+\large
+\textbf{FELADATKIÍRÁS}\\
+\end{center}
+
+A szemantikai elemzés célja, hogy természetes nyelvi adathoz készíthessünk szemantikai reprezentációt, így tudjuk modellezni a szöveg jelentését. Ha a nyelvi jelentést fogalmak irányított gráfjaival reprezentáljuk, ezeket pedig a mondat szintaktikai szerkezetét reprezentáló fákból kell el?állítanunk, akkor a teljes feladat egyetlen komplex gráftranszformációként definiálható.
+A népszer\H{u} szemantikai feladatokra, mint a szemantikai hasonlóság mérése vagy a gépi szövegértés, ritkán használják a természetes nyelv szemantikájának gráfos reprezentációját,
+f\H{o}leg state-of-the art rendszerekben. Ezek a rendszerek többnyire szó embeddingeket használnak szavak jelentésének ábrázolására, amik a szavak jelentését legfeljebb nehány száz dimenziós valós vektorként ábrázolják.
+Egy új kísérleti megközelítés a gráf-transzformációk közvetlen tanulása, amely során gráf-hálózatokat használva ezek a szemantikai reprezentációk gráf formában való transzformálása is lehetséges lenne. 
+
+Ilyen feladatot támogató keretrendszerek például a Graph Nets Library (ld. \href{https://github.com/deepmind/graph\_nets}{GitHub})
+vagy a Deep Graph Library (ld. \href{https://github.com/dmlc/dgl}{GitHub}). A hallgató munkájának központi témáját az erre irányuló
+kísérletek adják. A hallgató feladatai a következ\H{o}kre terjednek ki:
+\begin{itemize}
+\item Ismerjen meg egy gráf-hálózatok tanulására irányuló keretrendszert.
+\item Végezzen kísérleteket gráf-transzformációk mély tanulására.
+\item Ismerjen meg legalább egy szemantikai reprezentációt igényl\H{o} feladatot, ahol a módszer közvetlen értékelhet\H{o} lenne, például a Surface Realization
+(ld. \href{http://taln.upf.edu/pages/msr2018-ws/SRST.html}{Surface Realization cikk}) vagy az Extractive Summarization.
+\item Végezzen közvetlen kísérleteket a szemantikai reprezentációt igényl\H{o} feladaton.
+\item Mérje fel a rendszer korlátait az eredmények kiértékelésén keresztül.
+\end{itemize}
+
+
+
