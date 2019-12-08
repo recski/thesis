@@ -188,26 +188,22 @@ I will use this as a benchmark for my model evaluation.
 The highest achieving models on this task are end-to-end deep learning models, mostly ones using some kind of pretrained language models.
 The best model currently is Text Summarization with Pretrained Encoders~\cite{BERTsum}. This model has both extractive and abstractive versions.
 
-\begin{table}
-	\begin{tabular}{| l | l |}
+\begin{longtable}{| l | l |}
 	\hline 
 	\textbf{Metric}&\textbf{Score} \\ \hline \hline
 	\textbf{ROUGE-1 F1}&0.4385 \\ \hline
 	\textbf{ROUGE-2 F1}&0.2034 \\ \hline
 	\textbf{ROUGE-L F1}&0.3990 \\ \hline
 	\caption{Their best results on the CNN-Daily Mail dataset according to the paper}
-	\end{tabular}
-\end{table}
+\end{longtable}
 
 The second best based only on the ROUGE-1 score is the paper titled Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer~\cite{TransferSum} which works with the popular transformer approach.
 
-\begin{table}
-	\begin{tabular}{| l | l |}
-		\hline 
-		\textbf{Metric}&\textbf{Score} \\ \hline \hline
-		\textbf{ROUGE-1 F1}&0.4352 \\ \hline
-		\textbf{ROUGE-2 F1}&0.2155 \\ \hline
-		\textbf{ROUGE-L F1}&0.4069 \\ \hline
-		\caption{Their best results on the CNN-Daily Mail dataset by their own account}
-	\end{tabular}
-\end{table}
+\begin{longtable}{| l | l |}
+	\hline 
+	\textbf{Metric}&\textbf{Score} \\ \hline \hline
+	\textbf{ROUGE-1 F1}&0.4352 \\ \hline
+	\textbf{ROUGE-2 F1}&0.2155 \\ \hline
+	\textbf{ROUGE-L F1}&0.4069 \\ \hline
+	\caption{Their best results on the CNN-Daily Mail dataset by their own account}
+\end{longtable}

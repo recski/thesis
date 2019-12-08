@@ -178,7 +178,29 @@ The most notable difference between the two is the fact that while the graph dep
 
 Both models can be used under different circumstances, but the can also be used together in training processes.
 
-\subsection{Building blocks}
+\subsection{Graph Network block}
 The graph\_nets library contains three different block type: EdgeBlock, NodeBlock and GlobalBlock. Each responsible for the propagation of the corresponding tensor through the right function. So we can construct different models for edges, nodes and global parameters.
 
-The NodeBlock utilizes the aggregated features of the adjacent edges and global features and the GlobalBlock uses the aggregated features of the edges of the graph, and the aggregated features of the nodes of the graph.
+\textbox{
+	\textbf{Definitions from the code}
+
+	The \textit{NodeBlock} updates the features of each node in batch of graphs based on
+	the previous node features, the aggregated features of the
+	adjacent edges, and the global features of the corresponding graph.
+	
+	The \textit{EdgeBlock} updates the features of each edge in a batch of graphs based on the previous edge features, the features of the adjacent nodes,
+	and the global features of the corresponding graph.
+	
+	The \textit{GlobalBlock} updates the global features of each graph in a batch based on the previous global features, the aggregated features of the
+	edges of the graph, and the aggregated features of the nodes of the graph.
+}{}
+
+On top of using these graph structure dependent building blocks the GraphNetwork model (or Graph dependent model for the sake of clarity) it utilizes the updated edge features to calculate the node features and these results are used to update the global features.
+
+\subsection{Graph Independent block}
+As the name suggests, in this block every aspect of the graph is independent from another, the defined update functions only take into account their input tensor which can be the node tensor, the edge tensor or the global tensor.
+
+\subsection{Self Attention block}
+The graph\_nets library contains a multi-head self attention module which is mostly based on the article titled Attention Is All You Need~\cite{Multihead} which introduced Multi-head attentions.
+
+This mechanism updates the node features based on the node values, node keys and node queries taking into account the structure of the graph.
