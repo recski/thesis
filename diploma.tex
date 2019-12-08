@@ -22,6 +22,11 @@
 \usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{tcolorbox}
+\usepackage{longtable}
+\usepackage{algorithm2e}
+\usepackage{multirow}
+
+\usepackage{titlesec}
 \tcbuselibrary{listings,breakable}
 
 %--------------------------------------------------------------------------------------
@@ -37,7 +42,7 @@
 		title after break=,
 		left=0mm,right=0mm,bottom=0mm,top=0mm,
 		%enforce breakable,% <-- never use this
-		break at=8cm,
+		%break at=8cm,
 		pad at break=1mm,
 		]{#1}
 \end{tcolorbox}}
@@ -59,9 +64,13 @@
 \marginsize{35mm}{25mm}{15mm}{15mm} % anysize package
 \setcounter{secnumdepth}{0}
 \sectionfont{\large\upshape\bfseries}
-\setcounter{secnumdepth}{2}
+\setcounter{secnumdepth}{5}
 \singlespacing
 \frenchspacing
+
+
+\titleformat{\paragraph} {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph} {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 %--------------------------------------------------------------------------------------
 %	Setup hyperref package
@@ -126,6 +135,7 @@
 	declaration,%
 	abstract,%
 	introduction,%
+	chapter0,
 	chapter1,%
 	chapter2,%
 	chapter3,%
@@ -162,6 +172,7 @@ aboveskip=10pt}
 \include{declaration}
 \include{abstract}
 \include{introduction}
+\include{chapter0}
 \include{chapter1}
 \include{chapter2}
 \include{chapter3}

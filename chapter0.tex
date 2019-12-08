@@ -1,0 +1,188 @@
+%----------------------------------------------------------------------------
+\chapter{Background}\label{sect:Background}
+%----------------------------------------------------------------------------
+\section{Summarization}
+Summarization is the task of text shortening with the least amount of information loss. Being able to do this automatically and with nearly human level accuracy is a challenge to this date but its usefulness is undeniable especially in the news industry where there is a constant supply of new articles and writing a summary for each of them would be a waste of resources if there would be another way of summarizing them.
+
+We can distinguish between two approaches of this problem, both interesting and challenging.
+
+\subsection{Abstractive summarizaton}
+Summaries written by humans are usually free-form, not a word-by-word or sentence-by-sentence cut outs from the article.
+
+The goal of abstractive summarization is to construct the summaries in a similar fashion, being creative with its word choice so the end summary is as sound and as readable as any summary written by a person.
+
+This poses multiple difficulties because the system not only has to figure out what is important in an article but also has to construct grammatically correct sentences and are at the same time semantically sound and are actually a good summary of the article.
+
+This is a hard compared to the extractive approach but recently there have been some breakthroughs with end-to-end seq2seq neural networks.
+
+\subsection{Extractive summarization}
+Extractive summarization is an easier approach to the problem of summarization because it just chooses the expressions or sentences to keep from the original text.
+
+One could think of this as highlighting the most important information in a text.
+
+The mayor advantage of extractive summarization is the fact that there is no need to paraphrase anything from the original text, but the downside is that the maximum achievable ROUGE score is limited by the sentences of the text.
+
+I've decided to choose this approach for my thesis but it's important to mention, that on its own my Graph Neural Network model could be used for abstractive summarisationas well, the pre- and postprocessing of the data is what determines which approach will be used.
+
+\section{Evaluation}
+\subsection{BLEU score}
+The BLEU~\cite{BLEU} score was first introduced as an automatic evaluation tool for machine translation in 2002 but it has been used for a multitude of problems on the field of Natural Language Processing.
+
+BLEU is a precision oriented measure
+
+\[BLEU = \frac{\sum_{S \in CandidateSummaries}\sum_{n\_gram \in S} Count_{clip} (n\_grams)}{\sum_{S \in CandidateSummaries}\sum_{n\_gram' \in S} Count(n\_grams')}\]
+
+\subsection{ROUGE score}
+The ROUGE score metric has been developed in 2004 by Chin-Yew Lin~\cite{ROUGE}. ROUGE is short for Recall-Oriented Understudy for Gisting Evaluation. The metric is used to determine the quality of a generated summary by comparing it to a set of human written summaries. It yields similar results to human intuition.
+
+\textbf{ROUGE-N} is the ROUGE measure over n-grams. An n-gram is an expression from the text with length n.
+
+In contrast to the BLEU score which is a precision score, the ROUGE-N scores are the recall of the candidate summaries.
+
+\[ROUGE-N = \frac{\sum_{S \in ReferenceSummaries}\sum_{n\_gram \in S} Count_{match} (n\_grams)}{\sum_{S \in ReferenceSummaries}\sum_{n\_gram \in S} Count(n\_grams)}\]
+
+Where the \(Count_{match}(n\_grams)\) is the maximum number of co-occurring n-grams in the summaries.
+
+If n is 1, the ROUGE score is simply the number of matching words divided by the number of words in the reference sentence.
+
+\textbf{ROUGE-L} is an F-measure using the longest common subsequence of the predicted and reference summaries.
+
+\[Recall_{lcs} = \frac{LCS(reference\ summary,\ candidate\ summary)}{|reference\ summary|}\]
+
+\[Precision_{lcs} = \frac{LCS(reference\ summary,\ candidate\ summary)}{|candidate\ summary|}\]
+
+\[ROUGE-L = F1_{lcs} = \frac{(1 + \beta^2)Recall_{lcs}Precision_{lcs}}{Recall_{lcs} + \beta^2Precision_{lcs}}\]
+
+Where LCS is a function returning the length of the longest common subsequence and \(\beta = \frac{Precision_{lcs}}{Recall_{lcs}}\)
+
+\textbf{ROUGE-W} uses the weighted longest common subsequence method instead of the simple \textit{LCS} that prefers consecutive matches so the weighting function scores them higher.
+
+\textbf{ROUGE-S} is a Skip-Bigram Co-Occurrence Statistic. Skip-bigrams are any pair of words in the article, allowing for gaps between them. Skip-bigram co-occurrence statistics measure the overlap of skip-bigrams between a candidate summary and a set of reference summaries.
+
+\[Recall_{skip\_2} = \frac{SKIP_2(X, Y)}{combine(m, 2)}\]
+\[Precision_{skip\_2} = \frac{SKIP_2(X, Y)}{combine(k, 2)}\]
+\[ROUGE-S = F1_{skip\_2} = \frac{(1 + \beta^2)Recall_{skip\_2}Precision_{skip\_2}}{Recall_{skip\_2} + \beta^2Precision_{skip\_2}}\]
+
+Although the ROUGE-S allows skips in the matches but it is still sensitive to word order.
+
+\textbf{ROUGE-SU} is an expansion over the ROUGE-S metric adding a unigram feature to it to account for single word matches.
+
+\section{Previous work}
+The summmarization is a long standing task. There have been multiple solutions to this problem.
+
+\subsection{Greedy method}
+The (naive) greedy method works with a very basic main principle, always choose the sentence, that maximizes the ROUGE score of the summary.
+
+\begin{algorithm}
+	\SetAlgoLined
+	\KwResult{The n best sentence from the text}
+	best\_sentences = ""\;
+	\For{i < number of required sentences}{
+		rouge\_scores = map()\;
+		\ForEach{sentence in text \(\notin\) best\_sentences}{
+			rouge\_scores[concat(best\_sentences, sentence)] =  rouge\_score(sentence)\;
+		}
+		best\_sentence = max\_key\_by\_value(rouge\_scores)\;
+		best\_sentences = concat(best\_sentences, best\_sentence)\;
+		i = i + 1\;
+	}
+	\caption{Greedy summarization algorithm}
+\end{algorithm}
+
+\begin{longtable}{| l | l | l |}
+	\hline
+	\textbf{Evaluation method}&\textbf{Metric}&\textbf{Score}\\ \hline \hline
+		\multirow{3}{*}{\textbf{ROUGE-1}}
+			&Average Recall&0.73912\\
+			&Average Precision&0.33846 \\
+			&Average F1&0.44619 \\ \hline \hline
+		\multirow{3}{*}{\textbf{ROUGE-2}}
+			&Average Recall&0.39292 \\
+			&Average Precision&0.18290 \\
+			&Average F1&0.23900 \\ \hline \hline
+		\multirow{3}{*}{\textbf{ROUGE-3}}
+			&Average Recall&0.24648 \\
+			&Average Precision&0.11801 \\
+			&Average F1&0.15226 \\ \hline \hline
+		\multirow{3}{*}{\textbf{ROUGE-4}}
+			&Average Recall&0.17230 \\
+			&Average Precision&0.08483 \\
+			&Average F1&0.10807 \\ \hline \hline
+		\multirow{3}{*}{\textbf{ROUGE-L}}
+			&Average Recall&0.51007 \\
+			&Average Precision&0.23272 \\
+			&Average F1&0.30654 \\ \hline \hline
+		\multirow{3}{*}{\textbf{ROUGE-W-1.2}}
+			&Average Recall&0.19517 \\
+			&Average Precision&0.18583 \\
+			&Average F1&0.17739 \\ \hline \hline
+		\multirow{3}{*}{\textbf{ROUGE-S*}}
+			&Average Recall&0.48162 \\
+			&Average Precision&0.11587 \\
+			&Average F1&0.16621 \\ \hline \hline
+		\multirow{3}{*}{\textbf{ROUGE-SU*}}
+			&Average Recall&0.49349 \\
+			&Average Precision&0.12013 \\
+			&Average F1&0.17242 \\ \hline
+		\caption{ROUGE scores of the top 4 sentences chosen by the naive greedy algorithm over the test set of the CNN-Daily Mail data}
+		\label{tab:extr}
+\end{longtable}
+As the table~\ref{tab:extr} shows this method works surprisingly well.
+
+There have been some advancement of this method regarding its speed\cite{GreedySum}.
+
+\subsection{Text Rank}
+
+The Text Rank algorithm is an unsupervised method for automatic text summarization and it can also be used for keyword extraction. It has first described in a paper titled TextRank: Bringing Order into Texts~\cite{TextRank:2004}.
+
+TextRank is a graph based method that (for summarization purposes) builds graph representations from the articles using similarity measures of the sentences in them. Then the algorithm scores each of the vertices is calculated with the following formula:
+
+\[score(V_i) = (1 - d) + d \sum_{j \in InComingTo(V_i)} \frac{1}{|OutGoingFrom(V_j)|} score(V_j)\]
+
+where d is a damping factor between 0 and 1.
+
+The article~\cite{TextRank} also referenced by the \href{https://radimrehurek.com/gensim/summarization/summariser.html}{gensim documentation} describes multiple alternative methods for Text Rank. Gensim uses one of these alternative methods for summary extraction.  
+
+\begin{longtable}{| l | l | l |}
+	\hline
+	\textbf{Evaluation method}&\textbf{Metric}&\textbf{Score}\\ \hline \hline
+	\multirow{3}{*}{\textbf{ROUGE-1}}
+		&Average Recall&0.56350 \\
+		&Average Precision&0.20366  \\
+		&Average F1&0.28692  \\ \hline \hline
+	\multirow{3}{*}{\textbf{ROUGE-2}}
+		&Average Recall&0.20801 \\
+		&Average Precision&0.07546 \\
+		&Average F1&0.10587 \\ \hline \hline
+	\multirow{3}{*}{\textbf{ROUGE-3}}
+		&Average Recall&0.11009 \\
+		&Average Precision&0.04068 \\
+		&Average F1&0.05656 \\ \hline \hline
+	\multirow{3}{*}{\textbf{ROUGE-4}}
+		&Average Recall&0.07074 \\
+		&Average Precision&0.02666 \\
+		&Average F1&0.03671 \\ \hline \hline
+	\multirow{3}{*}{\textbf{ROUGE-L}}
+		&Average Recall&0.34467 \\
+		&Average Precision&0.12093 \\
+		&Average F1&0.17148 \\ \hline \hline
+	\multirow{3}{*}{\textbf{ROUGE-W-1.2}}
+		&Average Recall&0.12907 \\
+		&Average Precision&0.09360 \\
+		&Average F1&0.10068 \\ \hline \hline
+	\multirow{3}{*}{\textbf{ROUGE-S*}}
+		&Average Recall&0.27925 \\
+		&Average Precision&0.04148 \\
+		&Average F1&0.06513 \\ \hline \hline
+	\multirow{3}{*}{\textbf{ROUGE-SU*}}
+		&Average Recall&0.29271 \\
+		&Average Precision&0.04401 \\
+		&Average F1&0.06914 \\ \hline
+	\caption{ROUGE scores of the top 4 sentences chosen by the gensim library's TextRank variation based summarization algorithm over the test set of the CNN-Daily Mail data}
+\end{longtable}
+
+I will use this as a benchmark for my model evaluation.
+
+\subsection{Deep Learning models}
+
+The highest achieving models on this task are end-to-end deep learning models

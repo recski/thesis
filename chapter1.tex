@@ -8,8 +8,8 @@ This dataset contains over 300,000 articles and their respective summaries from 
 
 The only downside is that the summaries are not strictly extracted from the article hence there are expressions in the summaries that may not appear in the original article.
 
-There are multiple preprocessed versions available on this dataset. I've used a dataset provided to me by \emph{Gábor Recski}, my former consultant, currently working at \textit{Sclable} as the head of NLP.
-This preprocessed dataset was in a jsonl format, each line containing a dictionary with the article and the highlights from that article and also the set of sentences from each article, that together give the highest achievable ROUGE score.
+There are multiple preprocessed versions available on this dataset. I've used a dataset provided to me by \emph{Gábor Recski}, my former consultant, currently working at \textit{Apollo AI} as the head of AI.
+This preprocessed dataset was in a jsonl format, each line containing a dictionary with the article and the highlights from that article and also the set of sentences from each article, that together give the highest achievable ROUGE score using the naive greedy method described in chapter~\ref{sect:Background}. I will reference these summaries as the extracted summary of an article.
 
 \subsection{Example from the dataset}\label{subsect:example}
 \textbox{\textbf{Article}

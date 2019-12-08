@@ -13,7 +13,7 @@ This model has been tested and used in the demos provided on GitHub.
 As it is shown on the Figure~\ref{fig:encode-process-decode} above the model consist of 3 different parts.
 
 \subsection{Encoder}
-The encoder model is a graph independent model that uses multi layer perceptrons and layer normalization on the global attributes, the edge feature vectors and the node feature vectors. There are not shared variables between the multi layer perceptrons.
+The encoder model is a graph independent model that uses multi layer perceptrons and layer normalization on the global attributes, the edge feature vectors and the node feature vectors. There are no shared variables between the multi layer perceptrons.
 
 \subsection{Core}
 This is the only graph dependent part of the model. It also uses multi layer perceptrons and layer normalization as the previous one, but the graph dependency enables it to use the predicted edge features to influence the node features and these impact the global feature.
@@ -23,7 +23,7 @@ This section of the network is repeated resulting in a hidden state that gets fe
 \subsection{Decoder}
 The decoder model has the same structure as the encoder. It does not use any kind of activation on the last layer, which enables it to better generalization, but also making it harder to use on a specific project eq. classifying whether or not the summary graph contains the given node or edge.
 
-\section{GraphAttention model - first iteration}
+\section{SimpleGraphAttention model}
 This model is highly inspired by the Encode Process Decode model, but it is better suited for NLP problems as you can see on Figure~\ref{fig:graph-attention0}.
 
 \begin{figure}[!ht]
@@ -46,7 +46,7 @@ The encoder is made up of two Embedding layers one for the nodes' lemmas and one
 
 For the global features I only used a simple linear layer without activation functions, since it does not need to be encoded in any way.
 
-All of these blocks work independently from each other.
+All of these blocks work independently from each other, updating their respective blocks.
 
 \subsection{Network}
 
@@ -59,7 +59,11 @@ The Network, or core part of the model consists of activated linear layers with 
 	\label{fig:graph-attention0-network}
 \end{figure}
 
+Since this section of the model is graph dependent, after each feature update, the next block gets the updated feature vectors instead of the original ones.
+
 \subsection{Decoder}
+
+The decoder part of the model is also graph independent just like the encoder and is simply serves the function of the softmax output of the whole network. Its structure is presented on Figure~\ref{fig:graph-attention0-decoder}.
 
 \begin{figure}[!ht]
 	\centering
@@ -67,3 +71,42 @@ The Network, or core part of the model consists of activated linear layers with 
 	\caption{Representation of the decoder part of the model.}
 	\label{fig:graph-attention0-decoder}
 \end{figure}
+
+\section{GraphAttention model}
+The starting point of this model was the \textit{SimpleGraphAttention} model which was further developed using recent advancements regarding attention in graphs. There was two versions of this model, one that used LSTM cells in the Network part in the node block, and the other that used only linear layers. Since the main structure is the same I only included the graphical presentation on Figure~\ref{fig:graph-attention1} and Figure~\ref{fig:graph-attention1-network} of the later version. This one proved to be more usable due to the large amount of memory usage of the LSTM cells.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=150mm, keepaspectratio]{figures/GA1.png}
+	\caption{Representation of the model.}
+	\label{fig:graph-attention1}
+\end{figure}
+
+
+The Encoder and Decoder segments of the network are identical to their correspondences in the SimpleGraphAttention model.
+
+\subsection{Network and Graph Attentional Layer}
+The network part of the model went under some changes compared to the SimpleGraphAttention model's Network. The most notable change is the new, independent part of the network, called GAT. You can see a simplification of the network on Figure~\ref{fig:graph-attention1-network}.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.5]{figures/GA1_network.png}
+	\caption{Representation of the network part of the model.}
+	\label{fig:graph-attention1-network}
+\end{figure}
+
+The Graph Attentional Layer has been described in a 2018 paper titled \textit{Graph Attention Networks}\cite{GAT}. It was designed to work well with Graph Convolutional Network structures, but I was able to implement is for the Graph Neural Network architecture as well.
+
+This layer updates node features the following way: Suppose the features of the nodes are \(h_i\), we define a weight matrix \(W \in \mathbb{R}^{input\ features} \mathbb{R}^{output\ features} \) and a feed forward attention layer.
+
+Let the normalized attention coefficients be:
+
+\[a_{ij} =  \frac{exp(LeakyReLU(attention(W\vec{h_i} || W\vec{h_j})))}{\sum_{k \in i\ neighbors} exp(LeakyReLU(attention(W\vec{h_i} || W\vec{h_k})))}\]
+if i and j are neighbors.
+
+\[\vec{h_i}' = \sigma(\sum_{j \in i\ neighbours}a_{ij}W\vec{h_j})\]
+
+Since we are working with multi-head attention, the update equation is modified as follows:
+\[\vec{h_i}' = \sigma(\frac{1}{K} \sum_{k=1}^{K}\sum_{j \in i\ neighbours}a_{ij}^kW^k\vec{h_j})\]
+
+Where K is the number of heads in the multi-head attention.

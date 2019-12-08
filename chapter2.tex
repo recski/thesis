@@ -108,14 +108,11 @@ The backpropagation is also slightly different in this case, it's called backpro
 
 The gradient vanishing or explosion can be a problem with this RNN.
 
-There is a multitude of solutions for the exploding gradients, one of which is called gradient clipping. This is one of the method the state-of-the art system, Yuanfudao uses.
-
-This technique is a very simple yet powerful way of dealing with exploding gradients. All it does is that it limits the size of the gradient, if its norm is higher than a set threshold.
+There is a multitude of solutions for the exploding gradients, one of which is called gradient clipping. This technique is a very simple yet powerful way of dealing with exploding gradients. All it does is that it limits the size of the gradient, if its norm is higher than a set threshold.
 
 RNNs can be used in supervised and also unsupervised learning. They are used when the data is sequential, like text, audio, etc.
 
 \subsubsection{Long-Short Term Memory}
-The system we worked with uses LSTM layers as its default RNN type.
 Long-short term memory networks are the extension of the previously discussed recurrent neural network. The main difference is that it also has an internal long term memory. Usually these type of networks are more reluctant to have the exploding gradient problem.
 
 Like the simple RNN, LSTMs also have hidden states, that are calculated slightly differently.
@@ -142,13 +139,10 @@ The sigmoid function allows this structure to be able to learn, meaning that we 
 
 Long-short term memory networks are used in natural language processing, but also in generative networks, like video or image description generation, text generation and so on.
 
-\paragraph*{Bidirectional long-short term memory} also known as BiLSTM\\
-BiLSTM networks are a variant of long-short term memory that read the input from the beginning to the end then also from the end to the beginning. The main idea behind this is that we may need not just the previous output, but also the next one too. These networks usually outperform simple LSTM systems in their predictions and the learning velocity too.
-
 \subsection{Attention}
 The Attention mechanism was first described by Dzmitry Bahdanau in 2015 \cite{Bahdanau:2015} and was used for machine translation. Since then it became a widely used tool in natural language processing. The idea behind this mechanism is that when the neural network predicts the output, it only uses parts of the given input instead of the full input. That is where the most relevant information is concentrated and this mechanism only pays \textit{attention} to these parts and the network has to learn what to pay attention to.
 
-Usually in the "sequence-to-sequence" tasks like MT there are two main parts of the model an encoder and a decoder. The encoder and the decoder are usually some type of RNN, mostly LSTM. The encoder is responsible for creating a so called context-vector from the input sequence. This context-vector has a fixed length and it serves as the representation of the sequence inside the model. The decoder then decodes this context-vector to a sequence again, in the case of the machine translation this sequence is in a different language. A depiction can be seen at Figure~\ref{fig:seq_to_seq}.
+Usually in the "sequence-to-sequence" tasks like machine translation there are two main parts of the model an encoder and a decoder. The encoder and the decoder are usually some type of RNN, mostly LSTM. The encoder is responsible for creating a so called context-vector from the input sequence. This context-vector has a fixed length and it serves as the representation of the sequence inside the model. The decoder then decodes this context-vector to a sequence again, in the case of the machine translation this sequence is in a different language. A depiction can be seen at Figure~\ref{fig:seq_to_seq}.
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=150mm, keepaspectratio]{figures/seq_to_seq.jpg}
@@ -187,5 +181,4 @@ Both models can be used under different circumstances, but the can also be used 
 \subsection{Building blocks}
 The graph\_nets library contains three different block type: EdgeBlock, NodeBlock and GlobalBlock. Each responsible for the propagation of the corresponding tensor through the right function. So we can construct different models for edges, nodes and global parameters.
 
-The NodeBlock utilizes the aggregated features of the adjacent edges and global features and the GlobalBlock uses the aggregated features of the
-edges of the graph, and the aggregated features of the nodes of the graph.
+The NodeBlock utilizes the aggregated features of the adjacent edges and global features and the GlobalBlock uses the aggregated features of the edges of the graph, and the aggregated features of the nodes of the graph.

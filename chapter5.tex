@@ -1,12 +1,14 @@
 %----------------------------------------------------------------------------
 \chapter{Conclusion and future work}\label{sect:Future}
 %----------------------------------------------------------------------------
-I think we only started to explore the possible uses of this technique in the realms of natural language processing research and there is still a lot of open questions.
+In my opinion we only started to explore the possibilities of this technique in the realms of natural language processing research and there are still a lot of open questions.
 
-My plans for the future include further experiments with the preprocessing and optimization, but also the construction of a new model.
+The results show that this model trained on the extracted summaries can achieve higher ROUGE score than the benchmark gensim TextRank based algorithm.
 
-Modifications in the preprocessing step may include using word-embeddings as input features of the nodes, trying to use actual extracted summarizations as target graphs and constructing a target graph as the intersection of the extracted summarization and the human written summarization.
+My plans for the future include further experiments with the optimization, graph attention modifications and new structures.
 
-Trying to train the graph network only to learn which nodes to keep is also a viable option which might gives us better results.
+Modifications of the graph attention layer may include taking into account the edge types in some way because the current one only accounts for the node connectivity.
 
-I also plan to write a completely new model from scratch that incorporates self attention mechanism to further strengthen the influences inside the graph.
+I might reintroduce a modified edge loss for the training process but experiments are needed to determine whether it would be beneficial for the network, since previous iterations suggested otherwise.
+
+In conclusion I think there is room for further development and this research area is highly promising.
