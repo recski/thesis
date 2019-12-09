@@ -3,19 +3,33 @@
 %----------------------------------------------------------------------------
 
 Summarization tasks are relevant in the field of natural language processing (NLP). Complex end-to-end models like Hierarchical Structured Self-Attentive Model (HSASS) \cite{HSSAS} can achieve up to 42.3 ROUGE-1 score which was the best model when I started to work on this project. The best model as of writing this thesis has achieved 43.85 ROUGE-1 score \cite{BERTsum} using BERT. I write about the background of this field in chapter~\ref{sect:Background}.
-
+\rg{nem érdemes még itt számokkal jönni, mert nem mondtad még el, mi az a ROUGE
+és hogyan evaluálunk summarykat, így ez inkább zavaró.}
 Graph neural networks on the other hand are not yet widely researched and their usage for NLP purposes has not been explored previously, at least to my knowledge. Graph Convolutional Networks (GCN) have been successfully applied on a variety of tasks recently, but not as widely as other methods.
 
 That being said representing syntax with graphs or trees is common practice on the field, so finding a tool that is capable of generating graph representations from texts was not a hard task. I used the \textit{stanfordnlp} library which uses deep learning to determine part of speech (POS) tags, word lemmas and universal dependency (UD) relations between words.
 
 I used these graphs to build one merged graph that can represent sequences of sentences, like summaries and articles in a graph format. I had to modify the summary graphs further to have the same structure as the article graph. Chapter \ref{sect:DataProcessing} is about this process and the graph representation used in graph\_nets module.
+\rg{a reprezentációdban már a mondatok UD gráfjainak úniója volt, nem? Akkor az
+nem sequence of sentences, a sorrend elveszik}
 
 After this I had to further study and understand how to use said module with this input data since it was not abundantly clear whether it was \href{https://github.com/deepmind/graph\_nets/issues/36}{feasible} or not. In chapter \ref{sect:GraphNetwork} I documented some of the most important parts of the graph\_nets library as well as relevant deep learning concepts.
+\rg{konkrét issuet linkelni tökjó, de még ne itt. Majd amikor erről a konkrét
+részről írsz, és akkor majd ki is fejtheted, hogy mi az issue. Az introduction
+egy high-level overview, itt még nem akar az olvasó se konkrét számot, se
+konkrét issue-t, se konkrét architektúrát, stb. hallani, hanem big picture-t,
+meg azt, hogy milyen fejezetek lesznek}
 
 Chapter \ref{sect:Models} focuses on the structure of the models used for my experiments during the semester. There are more model definitions in the chapter, the Encode Process Decode model is one used in the graph\_nets demos and both the SimpleGraphAttention and the GraphAttention models are developed by me.
+\rg{ugyanígy modul neveket is korai ill zavaró itt emlegetni, viszont lehet
+előreutalni, hogy majd melyik fejezetben fejted ki}
+
 
 My experiments and results with these different architectures are detailed in chapter \ref{sect:Experiments}.
 
 The conclusion and my plans for future work are described in chapter \ref{sect:Future}.
 
-The code for the project is publicly available on \href{https://github.com/GKingA/graph\_transformations}{GitHub}.
+The code for the project is publicly available on
+\href{https://github.com/GKingA/graph\_transformations}{GitHub}.
+
+\rg{egy bekezdés legalább 3 mondat legyen, pl. ez a legutóbbi 3 mehet egybe}

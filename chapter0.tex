@@ -5,6 +5,7 @@
 Summarization is the task of text shortening with the least amount of information loss. Being able to do this automatically and with nearly human level accuracy is a challenge to this date but its usefulness is undeniable especially in the news industry where there is a constant supply of new articles and writing a summary for each of them would be a waste of resources if there would be another way of summarizing them.
 
 We can distinguish between two approaches of this problem, both interesting and challenging.
+\rg{ne legyenek egymondatos bekezdések}
 
 \subsection{Abstractive summarizaton}
 Summaries written by humans are usually free-form, not a word-by-word or sentence-by-sentence cut outs from the article.
@@ -15,6 +16,12 @@ This poses multiple difficulties because the system not only has to figure out w
 
 This is a hard compared to the extractive approach but recently there have been some breakthroughs with end-to-end seq2seq neural networks.
 
+\rg{egyrészt hivatkozz 2-3 cikket, egy közülük Abigail See cikke legyen a
+Pointer Generator networkökről, a többi lehet a tavalyi ACLről. De ami még
+fontosabb: le kell írni, hogy ezek mennyire használhatatlanok még, mivel
+rendszeresen halandzsáznak és/vagy tartalmilag fals dolgokat írnak le. És ezért
+fel nem merül, hogy real-world alkalmazásokban használjuk őket}
+
 \subsection{Extractive summarization}
 Extractive summarization is an easier approach to the problem of summarization because it just chooses the expressions or sentences to keep from the original text.
 
@@ -23,8 +30,19 @@ One could think of this as highlighting the most important information in a text
 The mayor advantage of extractive summarization is the fact that there is no need to paraphrase anything from the original text, but the downside is that the maximum achievable ROUGE score is limited by the sentences of the text.
 
 I've decided to choose this approach for my thesis but it's important to mention, that on its own my Graph Neural Network model could be used for abstractive summarisationas well, the pre- and postprocessing of the data is what determines which approach will be used.
+\rg{ezt kicsit óvatosabban fogalmazd, új helyes mondatokat generálni UD
+részgráfokból az nem hogy nem postprocessing, hanem egy teljesen új és nehéz
+feladat lenne. Inkább írd azt, hogy lesznek erre is ötleteid a kitekintés
+fejezetben (surface realization, stb}
+
 
 \section{Evaluation}
+\rg{mielőtt a metrikákról írnál, kell egy kis bevezető, amiből kiderül, hogy
+általában az az elv, hogy emberek által írt summarykkel való overlapot nézünk
+evaluáció gyanánt, és hogy ennek eleve mekkora korlátoltsága, hogy egy nagyon
+tökéletlen proxy, hiszen egy rendszer írhatna egy szuperjó, de az emberétől jól
+eltérő summaryt.}
+
 \subsection{BLEU score}
 The BLEU~\cite{BLEU} score was first introduced as an automatic evaluation tool for machine translation in 2002 but it has been used for a multitude of problems on the field of Natural Language Processing.
 
@@ -67,11 +85,28 @@ Although the ROUGE-S allows skips in the matches but it is still sensitive to wo
 
 \textbf{ROUGE-SU} is an expansion over the ROUGE-S metric adding a unigram feature to it to account for single word matches.
 
+\rg{nagyon hiányoznak a hivatkozások, és annak leírása, hogy a ROUGE, ha nem is
+explicit azt méri, amit szeretnénk (ld. az előző kommentemet), de legalább
+baromi magasan korrelál a human evaluationnel. Az alap ROUGE cikken kívül
+hivatkozandó még a "... shades of ROUGE" c. újabb cikk. És leírandó, hogy a
+ROUGE-2 korrelál a legjobban, és  a ROUGE-1-et és -L-t szokták a legtöbbet
+használni. + én még leírnám azt is, hogy ROUGE alapon összehasonlítani csak úgy
+van értelme rendszereket, ha ugyanolyan hosszú outputokat kértünk tőlük, mivel
+hogy recall oriented - tehát a hosszabb summary automatikusan magasabb ROUGE-t
+érhet el.
+
 \section{Previous work}
 The summmarization is a long standing task. There have been multiple attempts at solving this problem.
 
+
 \subsection{Greedy method}
+\rg{állj, itt keveredik két dolog. amit most leírsz, az nem egy summarization
+method, hanem arra egy módszer, hogy ha van human summarym, akkor felülről
+becsüljem az extractive módszerrel elérhető ROUGE scoret}
+
+
 The (naive) greedy method works with a very basic main principle, always choose the sentence, that maximizes the ROUGE score of the summary.
+
 
 \begin{algorithm}
 	\SetAlgoLined
@@ -88,6 +123,10 @@ The (naive) greedy method works with a very basic main principle, always choose 
 	}
 	\caption{Greedy summarization algorithm}
 \end{algorithm}
+
+\rg{és hogy egy konkrét adaton (CNN-DM) mi ez a felső becslés, az majd a
+datasetek bemutatásánál legyen, ne itt! Ott leírhatod majd azt is, hogy ki
+milyen pontszámokat ért el rajta}
 
 \begin{longtable}{| l | l | l |}
 	\hline

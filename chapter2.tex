@@ -3,6 +3,13 @@
 %----------------------------------------------------------------------------
 
 \section{Neural Networks}
+\rg{nem lenne muszáj ennyire nulláról elmagyaráznod, de ha már teszed, akkor
+valahol a legelején le kellene írni, hogy ez egy felügyelt tanulási módszer és
+hogy mi a célja áltaában. Ugyanis most a lossról, backpropagationről szóló
+részek, sőt igazából az egész csak lóg a levegőben. Már ha olyan olvasót
+feltételezünk, aki nem tudja, mi az a neurális háló - de ha írsz ilyen
+fejezetet, akkor olyat kell feltételezned} 
+
 Artificial neural networks are used for various machine learning and deep learning purposes. In this section I will introduce the basic concepts of the field of artificial neural networks.
 Most of the contents of this section is from the paper written by \'Ad\'am Kov\'acs and I for the Scientific Students' Associations conference in 2018 \cite{SemParse}.
 
@@ -60,12 +67,19 @@ Where \(\eta\) is the learning rate.
 The learning rate parameter can also change during the training process. This is called optimization. The main goal of it is to overcome the problems with setting the learning rate (too high can cause us to jump over any good solution, too low results in very slow learning and settling in a local minimum).
 
 One such optimization method is called Adam. It is a cross between two other methods: Adaptive learning rate and Momentum. The basic idea is slowly degrading the learning rate, based on the previous gradient.
-
+\rg{az ilyeneket hivatkozd, és ha azért említed, mert ezt fogod később
+használni, akkor ezt is írd le}
 \subsection{Embedding layers}
 
 The function of embedding layers is to turn integer values to fixed length vectors. They are used mostly in natural language processing to work as word2vec translation.
+\rg{de hát nem tudjuk, mi az a word2vec. továbbra sem muszáj, hogy olyan
+alapokat elmagyarázz, mint pl. hogy mi az a word embedding, de ha elmagyarázod,
+akkor annak magyarázd, aki nem tudja!}
 
-When using embedding layers we want to find vectors for each word so that it can model the word's meaning. We achieve this by looking at the context, the word usually appears in. If two words like \textit{apple} and \textit{orange} usually appear in the same context, than the vectors assigned to these words should have low cosine distance between them.
+When using embedding layers we want to find vectors for each word so that it
+can model the word's meaning. We achieve this by looking at the context, the
+word usually appears in. If two words like \textit{apple} and \textit{orange}
+usually appear in the same context, then the vectors assigned to these words should have low cosine distance between them.
 
 If you are building an NLP model, the embedding layer should be in the first layer, since its purpose is to make the transition from word to vector, and the word in this case is the input.
 
@@ -81,6 +95,8 @@ The input dimension of this layer is the size of the vocabulary and the output d
 They work mostly like a lookup table that can be trained. A lot of the times we use pretrained models, like the GloVe embeddings that have been trained on enormous datasets. We can also train them on our specific problem, or use the pretrained and our own embeddings simultaneously.
 
 There has been a huge step forward on this field with the appearance of pre-trained embeddings built from language models. The first such embedding is ELMo \cite{ELMo} which is a deep-contextualized word representation capable to handle character level features as well as the context of a given word.
+
+\rg{hivatkozások hiányoznak mindenhol: GloVe, ELMo, stb.}
 
 \subsection{Recurrent Neural Networks}
 
@@ -112,11 +128,18 @@ There is a multitude of solutions for the exploding gradients, one of which is c
 
 RNNs can be used in supervised and also unsupervised learning. They are used when the data is sequential, like text, audio, etc.
 
+\rg{itt pl. az első mondatnak kellett volna lennie, hogy sequential adatokról
+van szó, nem az utolsónak. Aki nem tudja, annak végig a levegőben lóg, hogy mi
+ez az egész. Az elején kell motiválni, hogy a szöveg az szekvenciális adat, a
+kontextust kell tudni modellezni, stb.}
+
 \subsubsection{Long-Short Term Memory}
 Long-short term memory networks are the extension of the previously discussed recurrent neural network. The main difference is that it also has an internal long term memory. Usually these type of networks are more reluctant to have the exploding gradient problem.
 
 Like the simple RNN, LSTMs also have hidden states, that are calculated slightly differently.
 \\
+
+\rg{hivatkozások!!}
 
 \begin{minipage}{\textwidth}
 	The LSTMs hidden states are calculated using three gates:
@@ -177,6 +200,10 @@ The article explains the different approaches of graph transformation learning, 
 The most notable difference between the two is the fact that while the graph dependent structure uses the data of the nodes and the edges simultaneously, the graph independent model does train the nodes and edges separately from each other.
 
 Both models can be used under different circumstances, but the can also be used together in training processes.
+
+\rg{valami nagyon rövid áttekintést, hivatkozásokkal, hogy mire
+használták/használják a graph_netset és általában a graph neural networköket.
+pár kurrens példát említeni és a cikkét hivatkozni is kell}
 
 \subsection{Graph Network block}
 The graph\_nets library contains three different block type: EdgeBlock, NodeBlock and GlobalBlock. Each responsible for the propagation of the corresponding tensor through the right function. So we can construct different models for edges, nodes and global parameters.

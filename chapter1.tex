@@ -8,7 +8,11 @@ This dataset contains over 300,000 articles and their respective summaries from 
 
 The only downside is that the summaries are not strictly extracted from the article hence there are expressions in the summaries that may not appear in the original article.
 
-There are multiple preprocessed versions available on this dataset. I've used a dataset provided to me by \emph{Gábor Recski}, my former consultant, currently working at \textit{Apollo AI} as the head of AI.
+\rg{ez nagyon nem releváns a dolgozatban, hogy tolem kaptál egy preprocessed
+verziót, az pláne nem, hogy én hol dolgozom :) ki is töröltem gyorsan. Én még a
+maradékot is törölném, senkit nem érdekel, milyen mezok voltak a JSONodban,
+jobb, ha csak általánosan írod le, mibol áll az adatod}
+There are multiple preprocessed versions available on this dataset.
 This preprocessed dataset was in a jsonl format, each line containing a dictionary with the article and the highlights from that article and also the set of sentences from each article, that together give the highest achievable ROUGE score using the naive greedy method described in chapter~\ref{sect:Background}. I will reference these summaries as the extracted summary of an article.
 
 \subsection{Example from the dataset}\label{subsect:example}
@@ -30,6 +34,8 @@ An American woman died aboard a cruise ship that docked at Rio de Janeiro on Tue
 As you can see the extracted summary contains the four best sentences from the article.
 
 This example is one of the shortest articles in the dataset, barely longer than its extracted summary.
+\rg{jobb lenne egy szemléletesebb példa, ahol nem abból áll a summarization,
+hogy 6 mondatból törlünk 2-t :) }
 
 %----------------------------------------------------------------------------
 \section{Universal Dependencies}
@@ -42,16 +48,34 @@ Before we discuss the data processing steps any further I need to clarify what U
 	\caption{UD graph of Bills on ports and immigration were submitted by Senator Brownback, Republican of Kansas. Image from \href{https://nlp.stanford.edu/software/stanford-dependencies.shtml}{https://nlp.stanford.edu/software/stanford-dependencies.shtml}}
 	\label{fig:UD}
 \end{figure}
+\rg{nyelvi példát dolttel kell szedni, így: UD graph of \textit{Bills on
+ports...}}
 
 Universal dependency trees represent the grammatical relationships between the words of a sentence; it gives us the syntactic structure of the given sentence. They can be easily interpreted with some knowledge of the grammatical structure of languages and they are widely used because of this.
+\rg{azt ne mondd, hogy it gives us the syntactic structure. a
+    konstituensstruktúrát pont nem mondják meg, a szavak sorrendjét egyértelmuen
+meghatározni pont nem lehet. a grammatical dependencyket adja meg.}
 
 Dependency trees have been used from the early 20th century based on the work of Lucien Tesni\`ere. In his book titled \textit{\'El\'ements de syntaxe structurale} (Elements of Structural Syntax)\cite{UD} he described the modern grammatical dependency graph structure.
-
+\rg{az ud-ról írj pár mondatot még, hogy sztenderdizált, nyelvfüggetle, és
+milyen sok nyelvre van belole treebank, ld. hivatkozás, meg parszer is, ld.
+hivatkozás (ld. Multilingual UD parsing shared task cikkére).
+\rg{legyen példa is egy mondat UD elemzésére, hogy aki most hall errol eloször,
+el tudja képzelni}
 We construct these trees by dependency parsing. There is a multitude of ways we can do that, the library I used in my solution utilizes the deep learning based approach.
+\rg{azt le kell írnod itt is, hogy milyen eszközt használtál, és lábjegyzetben
+linkeld is}
 
 %----------------------------------------------------------------------------
 \section{Graph format}
 %----------------------------------------------------------------------------
+\rg{valami kell ide az elejére: mi ez a library, kik csinálták, mire
+használták, hivatkozás, stb.}
+\rg{aztán valami high level overview, hogy ez egy milyen architektúra, milyen
+hálót tanít, stb. Mire a konkrét osztályokról, típusokról beszélsz, addigra
+tudhassa az olvasó, hogy mire való az egész}
+
+
 
 The graph\_nets library uses a specific format for graphs, a so called GraphTuple. The user can transform multiple graphs with networkx format or dictionary format to a GraphTuple object. In my project I used dictionaries because they seemed to be the more straight forward and manageable approach.
 
@@ -73,7 +97,8 @@ The graph dictionary contains the following elements:
 
 On the visual representation Figure \ref{fig:transform_graph} of this kind of graph transformation I highlighted the nodes and edges and the corresponding feature vectors and indexes with the same color for easy traceability.
 
-Although I mentioned the transformation between one graph dictionary and one GraphTuble, but one instance of GraphTuple usually contains a batch of multiple graphs. To be able to handle multiple graphs the GraphTuple object has two more fields calculated during the transformation between the list of graph dictionaries and the GraphTuple instance:
+Although I mentioned the transformation between one graph dictionary and one
+GraphTuple, but one instance of GraphTuple usually contains a batch of multiple graphs. To be able to handle multiple graphs the GraphTuple object has two more fields calculated during the transformation between the list of graph dictionaries and the GraphTuple instance:
 \begin{itemize}
 	\item n\_node: the number of nodes in each graph.
 	\item n\_edge: the number of edges in each graph.
@@ -86,7 +111,9 @@ Although I mentioned the transformation between one graph dictionary and one Gra
 	\label{fig:transform_multiple}
 \end{figure}
 
-On the Figure \ref{fig:transform_multiple} depicting this I also applied highlighting on the nodes, edges and graph backgrounds and the corresponding feature vectors and indexes with the same color.
+On the Figure \ref{fig:transform_multiple} depicting this I also applied
+highlighting on the nodes, edges and graph backgrounds and the corresponding
+feature vectors and indices with the same color.
 
 %----------------------------------------------------------------------------
 \section{Building the graphs}
@@ -95,6 +122,9 @@ On the Figure \ref{fig:transform_multiple} depicting this I also applied highlig
 As I mentioned in the Introduction\ref{sect:Introduction} I used the stanfordnlp library to generate the universal dependency parse trees from the texts. Using the lemma and part of speech (POS) tag of the words I constructed the nodes of the graph the following way: if a word's lemma appears multiple times with the same POS tag in the text I've treated them as one node and the dependencies were merged as edges.
 
 The feature vector of each node became their lemma and POS tag. The feature vector of the edges quite similarly is their UD relation type.
+\rg{Ezt az utolsó mondatot nem is értem, de ami fontosabb: valódi példán mutasd
+meg, legyen 2-3 rövid mondat, azoknak az UD elemzése, és végül a gráf bemenet,
+amit eloállítasz belolük.}
 
 \begin{figure}[!ht]
 	\centering
@@ -135,6 +165,12 @@ The Figure \ref{fig:small_article_graph} is another example. It is the graph rep
 %----------------------------------------------------------------------------
 \section{Forming the target graphs}
 %----------------------------------------------------------------------------
+\rg{muszáj, hogy valahol, a fejezet elején, vagy legkés\H{o}bb itt, általánosan
+elmagyarázd, hogy mi itt a supervised learning ötlet egyáltalán, ti. hogy egy
+nagy UD gráf éleinek részhalmazának kiválasztására vezeted vissza az extractive
+summarizationt és erre a feladatra generálsz tanítópéldákat. Enélkül az alábbi
+leírásból aligha lehet kibogarászni, hogy mirol van szó. Mindig arra az
+olvasóra gondolj, aki most hall eloször az egész témáról!}
 Initially my approach was to try to learn the summaries written by people. For this I needed to generate summary graphs, but their structure was not adequate for training any graph neural network on it. So my solution was the following: I iterated through the edges of the article graph and if the sender node, the receiver node and the edge type matched any edge in the summary I've marked them by adding a 1.0 at the end of their feature vector. Otherwise I appended a 0.0 to the vector.
 
 Similarly I iterated through the nodes as well and checked whether the same feature vector appears in the summary graph and appended 1.0 in case of successful search, 0.0 otherwise.
@@ -143,6 +179,8 @@ This way I was able to achieve the same structure, but with marked summary nodes
 
 The problem with this approach was the fact, that some of the expressions used in the summary did not match up with anything from the original text so the result could not contain the same level of information as the summary graph on it's own.
 
+\rg{nem kell itt se, hogy ezt Te kaptad, ez egy technikai dolog volt és nem
+    releváns, hogy nem Te állítottad el\H{o}, az algoritmust is leírtad.}
 However after I received the dataset that contained the extracted summaries with the best possible ROUGE score I was able to use that as the expected output of my neural network. The construction is similar to the previous one, but instead of generating an other graph and then trying to find the corresponding parts I only iterated through the ud graphs b sentences and labeled the nodes and edges in that with the right label.
 
 \begin{figure}[!ht]
