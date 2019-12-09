@@ -17,10 +17,10 @@ This poses multiple difficulties because the system not only has to figure out w
 This is a hard compared to the extractive approach but recently there have been some breakthroughs with end-to-end seq2seq neural networks.
 
 \rg{egyrészt hivatkozz 2-3 cikket, egy közülük Abigail See cikke legyen a
-Pointer Generator networkökről, a többi lehet a tavalyi ACLről. De ami még
+Pointer Generator networkökrol, a többi lehet a tavalyi ACLrol. De ami még
 fontosabb: le kell írni, hogy ezek mennyire használhatatlanok még, mivel
 rendszeresen halandzsáznak és/vagy tartalmilag fals dolgokat írnak le. És ezért
-fel nem merül, hogy real-world alkalmazásokban használjuk őket}
+fel nem merül, hogy real-world alkalmazásokban használjuk oket}
 
 \subsection{Extractive summarization}
 Extractive summarization is an easier approach to the problem of summarization because it just chooses the expressions or sentences to keep from the original text.
@@ -37,11 +37,11 @@ fejezetben (surface realization, stb}
 
 
 \section{Evaluation}
-\rg{mielőtt a metrikákról írnál, kell egy kis bevezető, amiből kiderül, hogy
+\rg{mielott a metrikákról írnál, kell egy kis bevezeto, amibol kiderül, hogy
 általában az az elv, hogy emberek által írt summarykkel való overlapot nézünk
 evaluáció gyanánt, és hogy ennek eleve mekkora korlátoltsága, hogy egy nagyon
-tökéletlen proxy, hiszen egy rendszer írhatna egy szuperjó, de az emberétől jól
-eltérő summaryt.}
+tökéletlen proxy, hiszen egy rendszer írhatna egy szuperjó, de az emberétol jól
+eltéro summaryt.}
 
 \subsection{BLEU score}
 The BLEU~\cite{BLEU} score was first introduced as an automatic evaluation tool for machine translation in 2002 but it has been used for a multitude of problems on the field of Natural Language Processing.
@@ -86,12 +86,12 @@ Although the ROUGE-S allows skips in the matches but it is still sensitive to wo
 \textbf{ROUGE-SU} is an expansion over the ROUGE-S metric adding a unigram feature to it to account for single word matches.
 
 \rg{nagyon hiányoznak a hivatkozások, és annak leírása, hogy a ROUGE, ha nem is
-explicit azt méri, amit szeretnénk (ld. az előző kommentemet), de legalább
+explicit azt méri, amit szeretnénk (ld. az elozo kommentemet), de legalább
 baromi magasan korrelál a human evaluationnel. Az alap ROUGE cikken kívül
 hivatkozandó még a "... shades of ROUGE" c. újabb cikk. És leírandó, hogy a
 ROUGE-2 korrelál a legjobban, és  a ROUGE-1-et és -L-t szokták a legtöbbet
 használni. + én még leírnám azt is, hogy ROUGE alapon összehasonlítani csak úgy
-van értelme rendszereket, ha ugyanolyan hosszú outputokat kértünk tőlük, mivel
+van értelme rendszereket, ha ugyanolyan hosszú outputokat kértünk tolük, mivel
 hogy recall oriented - tehát a hosszabb summary automatikusan magasabb ROUGE-t
 érhet el.
 
@@ -101,8 +101,8 @@ The summmarization is a long standing task. There have been multiple attempts at
 
 \subsection{Greedy method}
 \rg{állj, itt keveredik két dolog. amit most leírsz, az nem egy summarization
-method, hanem arra egy módszer, hogy ha van human summarym, akkor felülről
-becsüljem az extractive módszerrel elérhető ROUGE scoret}
+method, hanem arra egy módszer, hogy ha van human summarym, akkor felülrol
+becsüljem az extractive módszerrel elérheto ROUGE scoret}
 
 
 The (naive) greedy method works with a very basic main principle, always choose the sentence, that maximizes the ROUGE score of the summary.
@@ -124,7 +124,7 @@ The (naive) greedy method works with a very basic main principle, always choose 
 	\caption{Greedy summarization algorithm}
 \end{algorithm}
 
-\rg{és hogy egy konkrét adaton (CNN-DM) mi ez a felső becslés, az majd a
+\rg{és hogy egy konkrét adaton (CNN-DM) mi ez a felso becslés, az majd a
 datasetek bemutatásánál legyen, ne itt! Ott leírhatod majd azt is, hogy ki
 milyen pontszámokat ért el rajta}
 

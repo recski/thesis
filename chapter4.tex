@@ -39,9 +39,27 @@ I have experimented with both the Encode Process Decode and the Graph Attention 
 \subsection{Encode Process Decode}
 At first I tried to get the Encode-Process-Decode model to predict whether to put something in the summary graph or not using only the word ids as features, but realized it would probably be more sufficient to also use the POS tags.
 
-I also experimented with different loss functions, but for now i decided to use softmax cross entropy with output feature sizes of 2. This loss function is also available in the Appendices\ref{sect:Appendices}.
+I also experimented with different loss functions, but for now i decided to use
+softmax cross entropy with output feature sizes of 2. This loss function is
+also available in the Appendices\ref{sect:Appendices}.
+\rg{ez valahogy rosszul van számozva, és amúgy se találom a függelékben
+sehol...}
 
-Training on more, than 7000 article for 5 epochs (Early stopping stopped it from running any longer) I've got the following results.
+\rg{valahol le volt írva rendesen, hogy milyen optimizert használsz, mi az
+early stopping, stb.? Ha nem, akkor itt kell pár mondatban! És hogy milyen
+adaton kisérletezel? Azt itt legalább 1 mondatban meg kell ismételni,
+beleértve, hogy milyen vágás (See et al-é, gondolom)}
+
+Training on more than 7000 article for 5 epochs (Early stopping stopped it from running any longer) I've got the following results.
+\rg{nem értem, mi micsoda a táblázatodban, ezt a aláírásokban meg a szövegben
+is jobban el kell magyarázni. A nodes0 és edges0 számok zavaróak, hagyd ki,
+a nodes és edges elég - az egész prec/rec/f pontozásnak az az értelme, hogy a
+false positiveokat és false negativeokat is figyelembeveszi, nem kell külön az
+ellentétes osztályra is számolni}
+\rg{mi az a "correct test parts"? node vagy edge? Hogy lett bármi ilyen magas?
+Ugye nem számolsz sima accuracyt? A P/R/F azért kell, mert az accuracy nagyon
+nem informatív.}
+
 \begin{table}[!h]
 	\centering
 	\begin{tabular}{| c | c |}
@@ -109,6 +127,13 @@ This reconstruction method scores each sentence of the original article using th
 Based on the calculated score of each sentence we can order them by their relevance and keep the four most relevant sentence from the article as the summary.
 
 This method does not utilize the information of the graph structure nor does it prefer longer sentences.
+
+\rg{elég csak a recallokat nézni, viszont fontos, hogy mellé kerüljön pár
+másmilyen baseline (pl. textrank) ugyanilyen setupban (ugyanez a test set,
+ugyanúgy top4 mondat, stb), valamint az elméleti extractive maximum,
+különben nincs mihez hasonlítani. Egy táblázatban legyen mindhárom módszered +
+ezek, elég csak a recall}
+
 
 \begin{longtable}{| l | l | l |}
 	\hline

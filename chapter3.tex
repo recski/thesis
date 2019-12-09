@@ -1,6 +1,11 @@
 %----------------------------------------------------------------------------
 \chapter{Models}\label{sect:Models}
 %----------------------------------------------------------------------------
+
+\rg{Nem kell hosszas bevezetőket írni, de azért egy-egy mondat minden fejezet elején legyen, ami leírja, hogy mi ez a
+fejezet, mi lesz benne, mi köze az eddigiekhez.Itt konkrétan azt is, hogy mi a
+a helye az encoder decoder modellnek az architektúrádban}
+
 \section{Encode Process Decode model}
 This model has been tested and used in the demos provided on GitHub.
 \begin{figure}[!ht]
@@ -73,6 +78,8 @@ The decoder part of the model is also graph independent just like the encoder an
 \end{figure}
 
 \section{GraphAttention model}
+\rg{nem igazán tudom követni, hogy mely modellek jönnek a graphnetsbol és
+melyeket csináltad Te, írd le szerintem mindenhol explicite}
 The starting point of this model was the \textit{SimpleGraphAttention} model which was further developed using recent advancements regarding attention in graphs. There was two versions of this model, one that used LSTM cells in the Network part in the node block, and the other that used only linear layers. Since the main structure is the same I only included the graphical presentation on Figure~\ref{fig:graph-attention1} and Figure~\ref{fig:graph-attention1-network} of the later version. This one proved to be more usable due to the large amount of memory usage of the LSTM cells.
 
 \begin{figure}[!ht]
